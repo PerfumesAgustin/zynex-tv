@@ -1,0 +1,16 @@
+ZYNEX v2.1 - Activación TV
+1. Reemplazá los archivos de tu carpeta ZYNEX_v2 por los de este ZIP.
+2. Ejecutá en la carpeta: python -m http.server 8080
+3. Abrí http://localhost:8080
+4. El navegador creará un código ZYNEX-TV-XXXXXXXXXX y lo registrará como pendiente.
+5. En ZYNEX Admin (privado) actualizá el listado y autorizá el dispositivo.
+6. ZYNEX comprueba el estado cada 15 segundos y desbloquea la interfaz.
+7. Bloquearlo en el panel volverá a bloquear la interfaz en la siguiente consulta.
+8. Cada navegador/perfil tiene su propio código local; borrar sus datos puede generar otro.
+
+AVISOS IMPORTANTES:
+- Es un control de acceso en la interfaz, NO protección real de los enlaces de Drive o del catálogo público.
+- Un usuario técnico puede eludir las restricciones de una app web cliente.
+- No garantiza 10-30 reproducciones simultáneas desde Drive.
+- El servicio de registro público admite solicitudes arbitrarias: usarlo inicialmente para pruebas.
+- El panel ZYNEX Admin debe permanecer implementado con acceso Solo yo.

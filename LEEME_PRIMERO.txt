@@ -1,0 +1,41 @@
+ZYNEX v2 — instalación y límites
+================================
+
+1. HACER COPIA DE SEGURIDAD
+En la versión anterior, Administración > Exportar JSON. Guardá ese archivo.
+ZYNEX v2 reutiliza la clave localStorage zynex-catalog-v11, así que tus fichas se mantienen si abrís la nueva versión en el MISMO origen web (mismo puerto y dominio). Si cambia el origen, usá Importar JSON.
+
+2. PROBAR EN COMPUTADORA
+Descomprimí esta carpeta y, desde ella, abrí una terminal:
+  python -m http.server 8080
+Abrí http://localhost:8080
+Si tenías la versión anterior en ese puerto, cerrá el servidor anterior antes.
+Entrá en Administración. La URL de Apps Script existente se recupera automáticamente si se conserva el almacenamiento del navegador.
+La sincronización al abrir está activada por defecto; podés desactivarla.
+
+3. PORTADAS
+En Administración, editá una ficha. Para que la portada aparezca en diferentes equipos, pegá una URL HTTPS de imagen accesible desde esos equipos.
+También podés elegir un archivo local pequeño (máximo 350 KB), pero esa imagen SOLO se verá en este navegador y NO se incluye en Exportar JSON.
+
+4. ACTIVACIÓN REAL POR DISPOSITIVO (PRUEBA BÁSICA)
+IMPORTANTE: Antes de reemplazar el script, conservá una copia de tu código anterior.
+Abrí tu proyecto Google Apps Script, reemplazá Código.gs por GoogleAppsScript_ZYNEX_v2.gs.
+Guardá. En Implementar > Gestionar implementaciones > Editar > Nueva versión, publicá la nueva versión de la MISMA aplicación web (ejecutar como Yo, acceso Cualquier persona). Así debería conservarse la URL /exec.
+Volvé a ZYNEX, abrí Dispositivo: mostrará un código de 8 caracteres.
+En Apps Script, en la función approveDevice(), cambiá REEMPLAZAR por ese código, por ejemplo:
+  const code='ABCD2345';
+Guardá y ejecutá approveDevice() desde el editor de Apps Script. Aceptá permisos si se solicitan.
+Volvé a ZYNEX y pulsá Comprobar estado. Cuando diga autorizado, pulsá Sincronizar Drive.
+Para revocar, colocá el código en revokeDevice() y ejecutá esa función.
+La función listDevices() muestra los códigos autorizados en el registro.
+Si el navegador sigue usando la versión antigua del script, verás «Modo público de prueba» y no se aplicará autorización.
+
+5. LIMITACIONES IMPORTANTES
+La autorización solo restringe el acceso al catálogo desde el endpoint v2 y la interfaz; NO es DRM, ni impide abrir enlaces de Google Drive compartidos públicamente. Un usuario con acceso al navegador puede inspeccionar o manipular su almacenamiento local. El panel de administración también es local, no tiene cuentas ni autenticación segura. No distribuyas esta versión como sistema de contenido protegido.
+Las ediciones de título, portada y descripción en el panel se guardan localmente; NO se comparten automáticamente con otros televisores. La información base sí se obtiene desde Drive.
+Google Drive tiene límites de tráfico y de reproducción: no está garantizado para 10–30 TVs simultáneos.
+Esta es una web/PWA con soporte básico de flechas, Enter y Escape/Retroceso para controles remotos compatibles. NO incluye APK. Para Android TV falta empaquetar un WebView/Trusted Web Activity compatible y probar reproducción, enfoque, Back y mando real.
+
+6. SOLUCIÓN DE PROBLEMAS
+Si aparece HTTP 404, volvé a pegar la URL correcta /exec en Administración. Si no carga el catálogo, abrí la URL en otra pestaña y comprobá la respuesta. El script v2 sin parámetro action mostrará «Dispositivo no autorizado», y eso es normal.
+Si no se actualizan los archivos de la aplicación, recargá con Ctrl+Shift+R; si sigue igual, borrá la caché del sitio o desregistrá el service worker viejo.
